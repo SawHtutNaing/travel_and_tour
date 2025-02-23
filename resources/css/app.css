@@ -1,3 +1,23 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@source "../views";
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+.destination-card:hover img {
+    transform: scale(1.05);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
