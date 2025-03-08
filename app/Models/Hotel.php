@@ -25,5 +25,10 @@ class Hotel extends Model
         return $value == 1 ? 'Discount' : 'Mark Up';
     }
 
-    //enucu
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, 'package_hotels')
+            ->withPivot(['days', 'start_date', 'end_date', 'amount', 'actual_amount'])
+            ->withTimestamps();
+    }
 }

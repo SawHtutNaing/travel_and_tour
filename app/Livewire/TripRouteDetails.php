@@ -99,26 +99,21 @@ class TripRouteDetails extends Component
             'end_location' => $this->end_location,
         ];
 
-        // Handle image update or removal
+
         if ($this->image) {
-            // If there's a new image uploaded, remove the old one if updating
+
             if ($this->trip_route && $this->trip_route->image) {
                 $existingImagePath = str_replace('/storage/', '', $this->trip_route->image);
                 if (Storage::disk('public')->exists($existingImagePath)) {
                     Storage::disk('public')->delete($existingImagePath);
                 }
             }
-            // Store the new image
+
             $data['image'] = $this->image->store('vehicle_images', 'public');
-        } elseif ($this->trip_route && $this->trip_route->image) {
-
-            // If no new image, keep the existing image
-
-            // $data['image'] = str_replace('/storage/', '', $this->trip_route->image);
-            if (!$this->image) {
-                $data['image'] = null;
-            }
+        }else{
+            $data['image'] = null ;
         }
+
 
         if ($this->trip_route) {
             $this->trip_route->update($data);

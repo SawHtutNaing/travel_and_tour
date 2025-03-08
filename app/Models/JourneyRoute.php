@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PackageModel extends Model
+class JourneyRoute extends Model
 {
-    //
+   protected $guarded = [];
 }

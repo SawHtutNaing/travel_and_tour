@@ -20,6 +20,7 @@ class Login extends Component
     {
 
         if (Auth::check()) {
+
             return redirect()->route('dashboard'); // Redirect after login
 
         }

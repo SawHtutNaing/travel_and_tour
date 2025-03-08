@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('package_models', function (Blueprint $table) {
+        Schema::create('package_hotels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->foreignId('hotel_id')->constrained()->onDelete('cascade');
-            $table->integer('nights');
+            $table->integer('days');
             $table->date('start_date');
             $table->date('end_date');
+            $table->decimal('actual_amount',10 , 3);
+            $table->decimal('amount',10,3);
+
+
             $table->timestamps();
         });
     }

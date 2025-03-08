@@ -69,13 +69,11 @@ class HotelDetails extends Component
 
         ]);
 
-        // if ($this->hotel_image) {
-        //     $this->hotel_image = $this->hotel_image->store('hotel_images', 'public');
-        // }
+
 
 
         if ($this->hotel_image) {
-            // If there's a new image uploaded, check if there's an existing image and remove it
+
             if ($this->hotel_id) {
 
                 $existingImagePath =
@@ -85,21 +83,9 @@ class HotelDetails extends Component
                     Storage::disk('public')->delete($existingImagePath);
                 }
             }
-
-            // Store the new image and get its path
             $this->hotel_image = $this->hotel_image->store('hotel_images', 'public');
-        } elseif (! $this->hotel_id) {
-            // If the hotel is being created and no image is provided, add validation error
-            // $this->addError('hotel_image', 'The hotel image is required.');
-            $this->hotel_image  = null;
-
-            // return;
-        } else {
-
-            $this->hotel_image = str_replace('/storage/', '', $this->imagePreview);
         }
 
-        // If updating
         if ($this->hotel_id) {
             $hotel = Hotel::findOrFail($this->hotel_id);
             $hotel->update([

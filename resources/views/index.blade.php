@@ -19,7 +19,7 @@
                     Experience unforgettable adventures and create lasting memories with our curated travel packages.
                 </p>
                 <div class="flex justify-center gap-4 mt-10">
-                    <a href="#packages"
+                    <a href="{{ route('user.packages') }}"
                         class="px-8 py-3 font-medium text-white transition-colors bg-teal-500 rounded-full hover:bg-teal-600">
                         Explore Packages
                     </a>

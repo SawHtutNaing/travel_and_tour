@@ -2,37 +2,37 @@
 
 namespace App\Livewire;
 
-use App\Models\Package;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\Package;
+use App\Models\Hotel;
+use App\Models\PackageHotel;
+use App\Models\PackageTripRoute;
+use App\Models\TripRoute;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
 
 class PackageDetails extends Component
 {
     use WithFileUploads;
 
-    public $package_id;
-
-    public $name;
-
-    public $description;
-
-    public $start_location;
-
-    public $end_location;
-
-    public $total_amount;
-
-    public $image;
-
-    public $imagePreview; // Temporary preview
-
+    public $package_id, $name, $description, $start_location, $end_location, $total_amount, $image, $imagePreview;
     public $package;
 
+    // Multi-Hotel Selection
+    public $hotels = [];
+    public $tripRoutes = [];
+    public $hotelDetails = [];
+    public $tripRouteDetails = [];
+
+    public $allTripRoutes;
     public function mount($packageId = null)
     {
 
+        $this->allTripRoutes  = TripRoute::all();
         $package = Package::find($packageId);
+
         if ($package) {
             $this->package = $package;
             $this->package_id = $package->id;
@@ -41,92 +41,156 @@ class PackageDetails extends Component
             $this->start_location = $package->start_location;
             $this->end_location = $package->end_location;
             $this->total_amount = $package->total_amount;
-            $this->imagePreview = $package->image; // Load existing image
+            $this->imagePreview = $package->image;
 
+            $this->hotels = $package->package_hotels->toArray();
+            $this->tripRoutes = $package->package_trip_routes->toArray();
         }
     }
 
-    protected $rules = [
-        'name' => 'required|string|max:255',
-        'description' => 'required',
-        'start_location' => 'required|string|max:255',
-        'end_location' => 'required|string|max:255',
-        'total_amount' => 'required|numeric|min:0',
-    ];
-
-    public function render()
+    public function addHotelRow()
     {
-        return view('livewire.package-details');
+        $this->hotels[] = [
+            'hotel_id' => '',
+            'days' => '',
+            'start_date' => '',
+            'end_date' => '',
+            'actual_amount' => '',
+            'amount' => '',
+        ];
     }
 
-    public function create()
+    public function addTripRouteRow()
     {
-        $this->resetInputFields();
+        $this->tripRoutes[] = [
+            'trip_route_id' => '',
+            'amount' => '',
+            'date' => ''
+        ];
     }
 
-    public function updatedImage()
-    {
 
-        // Update the image preview when the user selects a new image
-        if ($this->image) {
-            $this->imagePreview = $this->image->temporaryUrl();
-        }
+    public function removeTripRouteRow($index)
+    {
+        unset($this->tripRoutes[$index]);
+        $this->tripRoutes = array_values($this->tripRoutes);
+    }
+
+
+
+    public function removeHotelRow($index)
+    {
+        unset($this->hotels[$index]);
+        $this->hotels = array_values($this->hotels);
     }
 
     public function save()
     {
-        $this->validate();
+        // $validated = $this->validate([
+        //     // 'name' => 'required|string|max:255',
+        //     // 'deschotelIdription' => 'required',
+        //     // 'start_location' => 'required|string|max:255',
+        //     // 'end_location' => 'required|string|max:255',
+        //     // 'total_amount' => 'required|numeric|min:0',
+        //     // 'hotels.*' => 'nullable|exists:hotels,id',
+        //     // 'hotels.*.days' => 'required|integer|min:1',
+        //     // 'hotels.*.start_date' => 'required|date',
+        //     // 'hotels.*.end_date' => 'required|date|after:hotels.*.start_date',
+        //     // 'hotels.*.actual_amount' => 'required|numeric|min:0',
+        //     // 'hotels.*.amount' => 'required|numeric|min:0',
+        // ]);
 
         $data = [
             'name' => $this->name,
-            'description' => $this->description, // Ensure this is a string
+            'description' => $this->description,
             'start_location' => $this->start_location,
             'end_location' => $this->end_location,
-
             'total_amount' => $this->total_amount,
-            'image' => $this->package_id ? 'nullable|image|max:2048' : 'required|image|max:2048',
-
-
-
         ];
 
-        // Handle image update or removal
         if ($this->image) {
             if ($this->package && $this->package->image) {
-                $existingImagePath = str_replace('/storage/', '', $this->package->image);
-                if (Storage::disk('public')->exists($existingImagePath)) {
-                    Storage::disk('public')->delete($existingImagePath);
-                }
+                Storage::disk('public')->delete(str_replace('/storage/', '', $this->package->image));
             }
-            // Store the new image
             $data['image'] = $this->image->store('package_images', 'public');
-        } elseif ($this->package && $this->package->image) {
-
-            // If no new image, keep the existing image
-
-            if (!$this->image) {
-                $data['image'] = null;
-            }
-
-            // $data['image']  = str_replace('/storage/', '', $this->package->image);
         }
 
-        if ($this->package) {
-            $this->package->update($data);
-        } else {
-            Package::create($data);
+        $package = Package::updateOrCreate(['id' => $this->package_id], $data);
+
+
+
+        $package->hotels()->detach();
+
+        foreach ($this->hotels as $index => $hotel) {
+            PackageHotel::create([
+                'package_id' => $package->id,
+                'hotel_id' => $this->hotels[$index]['hotel_id'],
+                'days' => $this->hotels[$index]['days'],
+                'start_date' => $this->hotels[$index]['start_date'],
+                'end_date' => $this->hotels[$index]['end_date'],
+                'actual_amount' => $this->hotels[$index]['actual_amount'],
+                'amount' => $this->hotels[$index]['amount'],
+            ]);
         }
 
-        // Reset form
+        $package->tripRoutes()->detach();
+
+        foreach ($this->tripRoutes as $index => $hotel) {
+            PackageTripRoute::create([
+                'package_id' => $package->id,
+                'trip_route_id' => $this->tripRoutes[$index]['trip_route_id'],
+                'amount' => $this->tripRoutes[$index]['amount'],
+                'date' =>  $this->tripRoutes[$index]['date'],
+            ]);
+        }
         $this->reset();
-
-        return redirect()->route('packages');
+        return redirect()->route('admin.packages');
     }
 
-    public function removeImage()
+
+    public function updateHotelPrice(){
+        if(count($this->hotels) > 0 ){
+            foreach($this->hotels as $index => $hotel){
+                if($hotel['hotel_id'] && $hotel['start_date'] && $hotel['end_date'] ){
+
+                    $currentHotel =  Hotel::find($hotel['hotel_id'])->first();
+                    $startDate = Carbon::parse($hotel['start_date']);
+                    $endDate = Carbon::parse($hotel['end_date']);
+                    $dayDiff = $startDate->diffInDays($endDate);
+
+                    $this->hotels[$index]['days'] = $dayDiff;
+
+                    $amount_per_day = $currentHotel->amount_per_day;
+                    $this->hotels[$index]['actual_amount']  = $dayDiff * $amount_per_day;
+                    $currentHotel->disableAdjustmentTypeAccessor = true;
+
+                    $type = $currentHotel->adjustment_type ;
+
+                    $price_adjustment = $currentHotel->price_adjustment ;
+$totalAdjust = (int) ($price_adjustment * $dayDiff) ;
+                    if($type == 1)
+                    {
+
+                        (int)$this->hotels[$index]['amount'] = $this->hotels[$index]['actual_amount'] + $totalAdjust   ;
+
+                    }
+                    if($type == 2 ){
+                        (int)$this->hotels[$index]['amount'] = $this->hotels[$index]['actual_amount'] -   $totalAdjust;
+
+
+
+                    }
+
+                }
+            }
+        }
+    }
+    public function render()
     {
-        // Reset the image and the preview
-        $this->image = null;
-        $this->imagePreview = null;
+        // dd($this->hotels );
+        $this->updateHotelPrice();
+        return view('livewire.package-details', [
+            'availableHotels' => Hotel::all(),
+        ]);
     }
 }
