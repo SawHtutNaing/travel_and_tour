@@ -171,11 +171,11 @@ $totalAdjust = (int) ($price_adjustment * $dayDiff) ;
                     if($type == 1)
                     {
 
-                        (int)$this->hotels[$index]['amount'] = $this->hotels[$index]['actual_amount'] + $totalAdjust   ;
+                        (int)$this->hotels[$index]['amount'] = $this->hotels[$index]['actual_amount'] - $totalAdjust   ;
 
                     }
                     if($type == 2 ){
-                        (int)$this->hotels[$index]['amount'] = $this->hotels[$index]['actual_amount'] -   $totalAdjust;
+                        (int)$this->hotels[$index]['amount'] = $this->hotels[$index]['actual_amount'] +   $totalAdjust;
 
 
 
