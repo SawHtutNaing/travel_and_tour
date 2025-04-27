@@ -1,4 +1,4 @@
-<form wire:submit.prevent="login()" class="mt-8 space-y-6">
+<form wire:submit.prevent="register()" class="mt-8 space-y-6">
 
 
 
@@ -11,10 +11,10 @@
                 <!-- Header -->
                 <div class="text-center">
                     <h2 class="text-3xl font-bold text-slate-900 dark:text-white">
-                        Welcome Back
+                        Welcome
                     </h2>
                     <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                        Please sign in to your admin account
+                        Please reigster  your  account
                     </p>
                 </div>
 
@@ -27,6 +27,28 @@
                 <!-- Login Form -->
 
                 <!-- Email Input -->
+
+                <div>
+                    <label for="name" class="block mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Name
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-user text-slate-400"></i>
+                        </div>
+                        <input id="name" name="name" type="text" required wire:model='name'
+                            class="block w-full pl-10 pr-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-transparent bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400"
+                            placeholder="Mr.John">
+                        @error('name')
+                            <li class="text-red-500">{{ $message }}</li>
+                        @enderror
+
+                    </div>
+
+                </div>
+
+
+
                 <div>
                     <label for="email" class="block mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">
                         Email Address
@@ -91,7 +113,7 @@
                 <button type="submit"
                     class="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 transition-colors"
                     {{-- id="submitButton" --}}>
-                    <span>Sign in</span>
+                    <span>Register</span>
 
                 </button>
 
@@ -109,7 +131,7 @@
 
 
                 <div class="text-center">
-<a href="{{ route('user.register') }}" class=" text-white">Register</a>
+<a href="{{ route('user.login') }}" class=" text-white">Login</a>
                 </div>
 
 

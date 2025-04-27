@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\UserTripRoutes;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'image'
     ];
 
     /**
@@ -46,4 +48,23 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function packages(){
+        return $this->hasMany(UserPackage::class);
+    }
+
+
+    public function hotels(){
+        return $this->hasMany(UserHotel::class);
+    }
+    public function rentCarJourneys(){
+        return $this->hasMany(RentCarJourney::class);
+    }
+
+    // UserTripRoutes
+    public function tripRoutes(){
+        return $this->hasMany(UserTripRoutes::class);
+    }
+
+
 }

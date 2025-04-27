@@ -38,7 +38,8 @@ class HotelManagement extends Component
 
 
 
-        $hotels = Hotel::when($this->search_kw, function ($q) {
+        $hotels = Hotel::
+        when($this->search_kw, function ($q) {
             $q->where('name', 'like', '%' . $this->search . '%')
 
                 ->orWhere(

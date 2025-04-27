@@ -1,4 +1,4 @@
-<div>
+<div class="bg-white dark:bg-slate-900">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <div class=" h-24 ">
@@ -7,6 +7,7 @@
         @endauth
     </div>
     <div class=" flex
+
 
      {{ is_numeric(auth()->id()) ? 'justify-between' : 'justify-center' }}
 

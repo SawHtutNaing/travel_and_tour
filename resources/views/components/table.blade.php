@@ -114,12 +114,12 @@
 
                                 @foreach ($columns as $column)
                                     @if ($column == 'image')
-                                        <td class="p-4">
+                                        <td class="p-4  text-center">
                                             <img src="{{ $value->image }}" alt="{name}"
                                                 class="w-16 h-16 rounded-lg object-cover">
                                         </td>
                                     @else
-                                        <td class="p-4">
+                                        <td class="p-4  text-center">
                                             <div class="font-medium text-slate-900 dark:text-white">
 
                                                 {{ $value->$column }}

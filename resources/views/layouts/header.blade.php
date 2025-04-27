@@ -16,30 +16,79 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden md:block">
                     <div class="flex items-center ml-10 space-x-4">
-                        <a href="#home"
+                        <a href="{{ route('index') }}"
                             class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
                             Home
                         </a>
-                        <a href="#destinations"
-                            class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
-                            Destinations
-                        </a>
-                        <a href="#packages"
+
+
+                        <a href="{{ route('user.all_hotels') }}"
+                        class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
+                        Hotels
+                    </a>
+
+
+
+                        <a href="{{ route('user.all_packages') }}"
                             class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
                             Packages
                         </a>
-                        <a href="#about"
-                            class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
-                            About
-                        </a>
-                        <a href="#gallery"
-                            class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
-                            Gallery
-                        </a>
-                        <a href="#contact"
-                            class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
-                            Contact
-                        </a>
+
+                        <a href="{{ route('user.trip_rotues') }}"
+                        class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
+                        Trip Routes
+                    </a>
+
+
+
+                    <a href="{{ route('user.trip_route_all') }}"
+                    class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
+                    Car Rent
+                </a>
+
+
+
+
+
+
+                       @guest
+
+
+                       <a href="{{ route('user.login') }}"
+                       class="px-3 py-2 text-sm font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
+                       Register / Login
+                   </a>
+                   @endguest
+
+                       @auth
+
+                       <a href="{{ route('user.profile') }}"
+                       class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+                       <i class="fas fa-person text-slate-600 dark:text-slate-300"></i>
+                       <span class=" text-white">Profile </span>
+                   </a>
+
+                   <a href="{{ route('user.history') }}"
+                   class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+                   <i class="fas fa-file text-slate-600 dark:text-slate-300"></i>
+                   <span class=" text-white">History </span>
+               </a>
+
+
+
+
+
+                       <a href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                       class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+                       <i class="fas fa-sign-out-alt text-slate-600 dark:text-slate-300"></i>
+                   </a>
+                   <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="hidden">
+                       @csrf
+                   </form>
+
+
+                       @endauth
+
                         <button onclick="toggleDarkMode()"
                             class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
                             <i class="fas fa-moon dark:hidden"></i>
@@ -60,18 +109,18 @@
             <!-- Mobile menu -->
             <div class="hidden md:hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#home"
+                    <a href="{{ route('index') }}"
                         class="block px-3 py-2 text-base font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
                         Home
                     </a>
-                    <a href="#destinations"
+                    {{-- <a href="#destinations"
                         class="block px-3 py-2 text-base font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
                         Destinations
-                    </a>
-                    <a href="#packages"
+                    </a> --}}
+                    {{-- <a href="#packages"
                         class="block px-3 py-2 text-base font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
                         Packages
-                    </a>
+                    </a> --}}
                     <a href="#about"
                         class="block px-3 py-2 text-base font-medium rounded-md text-slate-600 dark:text-slate-200 hover:text-teal-500 dark:hover:text-teal-400">
                         About
@@ -89,6 +138,8 @@
         </div>
     </nav>
     <script>
+
+
         // Dark mode toggle
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
@@ -124,5 +175,9 @@
                 document.getElementById('menu-icon').classList = 'fas fa-bars';
             });
         });
+
+
     </script>
+
+
 </div>

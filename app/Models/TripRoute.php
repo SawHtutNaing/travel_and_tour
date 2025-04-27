@@ -24,6 +24,7 @@ class TripRoute extends Model
     //     );
     // }
 
+
     public function getImageAttribute($value)
     {
 

@@ -6,10 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>TravelEase - Your Journey Begins Here</title>
+    @livewireStyles
+
 </head>
 <body>
 </body>
 </html>
+
 @yield('content')
+@livewireScripts
+    
 
 @include('layouts.footer')
