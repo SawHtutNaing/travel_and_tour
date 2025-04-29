@@ -35,10 +35,10 @@ class JourneyRoutesManagement extends Component
     {
 
         $journey_routes = JourneyRoute::when($this->search_kw, function ($q) {
-            $q->where('name', 'like', '%' . $this->search . '%')
+            $q->where('point_one', 'like', '%' . $this->search . '%')
 
                 ->orWhere(
-                    'location',
+                    'point_two',
                     'like',
                     '%' . $this->search . '%'
                 );

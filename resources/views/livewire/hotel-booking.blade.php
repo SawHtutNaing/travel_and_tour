@@ -19,8 +19,8 @@
                     <div class="relative">
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
                         <input type="number" id="total_amount" name="total_amount" required min="0"
-
-                            wire:model.live="total_amount" 
+                        disabled
+                            wire:model.live="total_amount"
                             class="w-full pl-8 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg
                                    focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-transparent
                                    bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400"
@@ -82,6 +82,6 @@
     <script>
 function redirect(url) {
     window.location.href = url;
-} 
+}
     </script>
 </div>

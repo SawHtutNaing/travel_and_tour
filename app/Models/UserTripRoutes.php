@@ -11,6 +11,6 @@ class UserTripRoutes extends Model
 
    public function tripRoute()
    {
-       return $this->belongsTo(TripRoute::class, 'trip_rotue_id');
+       return $this->belongsTo(TripRoute::class, 'trip_route_id');
    }
 }

@@ -15,12 +15,14 @@ class TripRouteRent extends Component
     public function mount( TripRoute $trip_route )
 {
 $this->trip_route = $trip_route;
+
 }
     public function tripRouteRent(){
 
         $this->validate([
             'rent_date' => 'required|date',
         ]);
+
         UserTripRoutes::create([
             'rent_date' => $this->rent_date ,
             'user_id' => auth()->id(),
