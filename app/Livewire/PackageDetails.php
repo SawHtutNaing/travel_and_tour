@@ -147,7 +147,11 @@ class PackageDetails extends Component
         return redirect()->route('admin.packages');
     }
 
-
+    public function removeImage()
+    {
+        $this->image = null;
+        $this->imagePreview = null;
+    }
     public function updateHotelPrice(){
         if(count($this->hotels) > 0 ){
             foreach($this->hotels as $index => $hotel){
