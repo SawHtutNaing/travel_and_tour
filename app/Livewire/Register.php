@@ -47,6 +47,10 @@ public $name ;
             'role' => 2
         ]);
         Auth::login($user);
+
+          if (Auth::check()) {
+            return redirect()->route('dashboard'); // Redirect after login
+        }
     }
 
 

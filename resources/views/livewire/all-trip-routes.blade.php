@@ -85,7 +85,7 @@
                     <div class="absolute text-white bottom-4 left-4">
                         <h3 class="text-xl font-bold">{{ $trip_route->name }}</h3>
                         <p class="text-sm">{{$trip_route->location}}</p>
-                        <p class="text-sm">${{ $trip_route->amount_per_day }} per night</p>
+                        <p class="text-sm">${{ $trip_route->amount }} per trip</p>
                     </div>
                 </div>
             </div>
